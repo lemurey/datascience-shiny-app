@@ -7,7 +7,7 @@ classes <- c('NULL','character',rep('NULL',4),'character','character',rep('NULL'
              rep('numeric',3),'character','numeric','character',rep('NULL',9))
 
 # read in Data
-wt <- fread('StormData.csv',colClasses=classes)
+wt <- fread('./pathtodata/StormData.csv',colClasses=classes)
 
 # create a new column of just the year for use in sorthing later
 wt[,year:=format(as.Date(BGN_DATE,format="%m/%d/%Y %X"),'%Y')]
@@ -57,6 +57,7 @@ for (yearval in adjust[,year]) {
      wt[.(yearval),damages:=(PROPDMG*mult+CROPDMG*cmult)*mod]
 }
 
+## get rid of any state data not in the continental US
 
 twt <- wt[,.(EVTYPE,year,STATE,FATALITIES,INJURIES,damages)]
 
@@ -65,7 +66,7 @@ states <- c(unique(twt[,STATE])[1:49],'AK','HI')
 twt <- twt[STATE %in% states]
 
 
-
+# filter some categories.
 
 heat <- unique(twt[grep('heat',EVTYPE,ignore.case=TRUE),EVTYPE])
 heat <- heat[!grepl('drought',heat,ignore.case=TRUE)]
@@ -94,8 +95,10 @@ top80events <- c('FLOOD','HURRICANE','STORM SURGE','TORNADO','HAIL','FLASH FLOOD
                  'RIVER FLOOD','ICE STORM','COLD','HEAT','THUNDERSTORM WIND','LIGHTNING',
                  'HIGH WIND','RIP CURRENT','AVALANCHE',heat,cold,drought,hurricane,
                  tornados,flood,flashflood,riverflood,tstmwind)
+
 twt <- twt[EVTYPE %in% top80events,]
 
+# save the transformed data
 save(twt,file='forap.rda')
 
 

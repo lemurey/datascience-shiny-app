@@ -21,7 +21,7 @@ shinyUI(
                mainPanel(p('This is a tool for visualizing economic and population damage from',
                          'weather events in the US from the years 1991 to 2011. The data is',
                          'taken from the NOAA weather events database available for download ',
-                         tags$a(href='','here.'), 'You can read more about',
+                         tags$a(href='https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2','here.'), 'You can read more about',
                          'the data set from',tags$a(href='https://www.ncdc.noaa.gov/stormevents/','NOAA.'),
                          'The version of the database used in this project ends in 2011.'),
                          p('This app uses a transformed version of the database, you can read',
