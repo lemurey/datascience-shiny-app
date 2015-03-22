@@ -1,0 +1,60 @@
+---
+title       : Course Project - Developing Data Products
+subtitle    : 
+author      : Lee Murray
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Historical Weather Event Data Visualization
+
+This presentation is about the exciting new Historical Weather Event Data Visualization app
+Using the massive power of R and shiny, you can now find out how much damage past weather
+events caused on a state by state basis.
+
+
+--- 
+
+## DETAILS!
+
+The app works as follows: Select a date range and a state and whether you want to see
+economic or population damages and the app will display a barplot of the weather categories
+contributing to the top 80% of the relevant damages. AMAZING!
+
+You can go play with it right now at [WeatherView](https://lemurey.shinyapps.io/WeatherView/)
+
+---
+
+## Slide 4 (it's better than Slide 3)
+This app was based on the NOAA database used for the reproducible research course.
+I applied some transformations to the data that you can read about [on my github page](https://github.com/lemurey/datascience-shiny-app)
+  
+A brief summary- I filtered out everything before 1991, then applied an
+inflation adjustment to the monetary values. I then grab the event 
+categories that correspond to the top 80% of any given damage type.
+
+The original data can be found [here.](https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2)
+
+---
+
+## data.table is great
+
+The app uses the powerful data.table R package to perform calculations, it's great.
+
+I used calculations like these, and some regular expressions to combine
+similar categories and make the graphs easier to follow.
+
+```{r echo=FALSE}
+library(data.table)
+load('../forap.rda')
+```
+```{r example data.table}
+twt[year %in% c('1991','1992','1993'),.(sum(FATALITIES)),by=STATE]
+
+head(twt)
+```
